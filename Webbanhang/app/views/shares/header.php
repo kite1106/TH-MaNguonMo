@@ -69,7 +69,7 @@
 <nav class="navbar navbar-expand-lg shadow">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <i class="fas fa-shopping-bag me-2"></i>SHOPPY
+            <i class="fas fa-shopping-bag me-2"></i>tiktok shop
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -77,8 +77,8 @@
         
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" href="#">Trang chủ</a></li>
-                <li class="nav-item"><a class="nav-link" href="/WebBanHang/Product">Sản phẩm</a></li>
+                <li class="nav-item"><a class="nav-link" href="/WebBanHang/Product/Index">Trang chủ</a></li>
+                <li class="nav-item"><a class="nav-link" href="/WebBanHang/Product/Add">Them Sản phẩm</a></li>
                 <li class="nav-item"><a class="nav-link" href="/WebBanHang/Category">Danh mục</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Giới thiệu</a></li>
             </ul>
@@ -96,10 +96,26 @@
                 <button class="btn btn-outline-light me-3">
                     <i class="fas fa-user"></i>
                 </button>
-                <button class="btn btn-outline-light position-relative">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="badge bg-danger rounded-pill cart-badge">3</span>
-                </button>
+                
+             <?php
+$cartCount = 0;
+if (isset($_SESSION['cart'])) {
+    foreach ($_SESSION['cart'] as $item) {
+        $cartCount += $item['quantity'];
+    }
+}
+?>
+
+<a href="/webbanhang/product/cart">
+    <button class="btn btn-outline-light position-relative">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="badge bg-danger rounded-pill cart-badge">
+            <?php echo $cartCount; ?>
+        </span>
+    </button>
+</a>
+
+
             </div>
         </div>
     </div>

@@ -13,7 +13,7 @@
     <div class="card-body">
         <form action="/webbanhang/product/SaveAdd" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
-                <label class="form-label">Tên Thể Sản Phẩm</label>
+                <label class="form-label">Tên Sản Phẩm</label>
                 <input name="name" class="form-control">
             </div>
             <div class="mb-3">
@@ -26,17 +26,17 @@
                 <div class="ChuaAnh"></div>
 
             </div>
-            <div class="mb-3">
-                <label class="form-label">Thể Loại Sản Phẩm</label>
-                <select name='categoryid' class="form-control">
-                    <?php if ($theloai != null): ?>
-                        <?php foreach ($theloai as $i): ?>
-                            <option value="<?php echo htmlspecialchars($i->id) ?>"><?php echo htmlspecialchars($i->name) ?></option>
-                        <?php endforeach; ?>    
-                    <?php endif; ?>
+          <div class="mb-3">
+    <label class="form-label">Thể Loại Sản Phẩm</label>
+    <select name='categoryid' class="form-control">
+        <?php if (!empty($theloai)): ?>
+            <?php foreach ($theloai as $i): ?>
+                <option value="<?php echo htmlspecialchars($i->id) ?>"><?php echo htmlspecialchars($i->name) ?></option>
+            <?php endforeach; ?>    
+        <?php endif; ?>
+    </select>
+</div>
 
-                </select>
-            </div>
             <div class="mb-3">
                 <label class="form-label">Mô Tả</label>
                 <!-- <input name="des" class="form-control"> -->
