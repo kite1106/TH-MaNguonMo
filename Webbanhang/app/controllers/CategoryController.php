@@ -28,6 +28,7 @@ class CategoryController
 
     public function Add()
     {
+        
         include 'app/views/Category/Add.php'; // TRẢ VỀ TRANG HIỆN TẠI
     }
 
