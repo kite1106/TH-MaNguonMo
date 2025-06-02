@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once 'app/models/ProductModel.php';
 require_once 'app/models/CategoryModel.php';
 

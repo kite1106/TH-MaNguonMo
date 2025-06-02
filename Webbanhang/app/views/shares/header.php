@@ -1,151 +1,118 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+    <?php
+    include_once 'app/helpers/SessionHelper.php';
+    SessionHelper::start();
+    ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>web ban hang re so 1 the gioi</title>
-    
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-
-    <style>
-        :root {
-            --primary-color: #007bff;
-            --secondary-color: #ff7675;
-            --dark-color: #2c3e50;
-            --light-color: #ecf0f1;
-        }
-
-        .navbar {
-            background: var(--primary-color);
-        }
-
-        .navbar-brand {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: white !important;
-        }
-
-        .navbar-nav .nav-link {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: white !important;
-            padding: 10px 15px;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .navbar-nav .nav-link:hover {
-            background-color: var(--secondary-color);
-            color: white !important;
-            border-radius: 5px;
-        }
-
-        .btn-search {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-
-        .btn-search:hover {
-            background-color: #d63031;
-        }
-
-        .cart-badge {
-            position: absolute;
-            top: 0;
-            right: 0;
-            transform: translate(50%, -50%);
-            font-size: 0.75rem;
-        }
-    </style>
+    <title>Quản lý sản phẩm</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webbanhang/assets/style.css">
 </head>
 
 <body>
+    <!-- ✅ Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">Quản lý sản phẩm</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-<!-- Header -->
-<nav class="navbar navbar-expand-lg shadow">
-    <div class="container">
-        <a class="navbar-brand" href="#">
-            <i class="fas fa-shopping-bag me-2"></i>tiktok shop
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" href="/WebBanHang/Product/Index">Trang chủ</a></li>
-                <li class="nav-item"><a class="nav-link" href="/WebBanHang/Product/Add">Them Sản phẩm</a></li>
-                <li class="nav-item"><a class="nav-link" href="/WebBanHang/Category">Danh mục</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Giới thiệu</a></li>
-            </ul>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/webbanhang/Product/">📦 Sản phẩm</a></li>
 
-            <!-- Thanh tìm kiếm -->
-            <div class="input-group me-3" style="width: 300px;">
-                <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm..." id="searchInput">
-                <button class="btn btn-search" type="button" onclick="showSearchAlert()">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
+                    <!-- Ẩn nút "Thêm sản phẩm" nếu không phải Admin -->
+                    <?php if (SessionHelper::isAdmin()): ?>
+                        <li class="nav-item"><a class="nav-link" href="/webbanhang/Product/add">➕ Thêm sản phẩm</a></li>
+                    <?php endif; ?>
+<?php if (SessionHelper::isAdmin()): ?>
+                    <li class="nav-item"><a class="nav-link" href="/webbanhang/Category/Add">📂 Danh mục</a></li>
+                    <?php endif; ?>
 
-            <!-- Biểu tượng tài khoản & giỏ hàng -->
-            <div class="d-flex align-items-center">
-                <button class="btn btn-outline-light me-3">
-                    <i class="fas fa-user"></i>
-                </button>
-                
-             <?php
-$cartCount = 0;
-if (isset($_SESSION['cart'])) {
-    foreach ($_SESSION['cart'] as $item) {
-        $cartCount += $item['quantity'];
-    }
-}
-?>
+                </ul>
 
-<a href="/webbanhang/product/cart">
-    <button class="btn btn-outline-light position-relative">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="badge bg-danger rounded-pill cart-badge">
-            <?php echo $cartCount; ?>
-        </span>
-    </button>
-</a>
-
-
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/webbanhang/product/cart">
+                            <i class="fas fa-shopping-cart"></i> Giỏ hàng 
+                            <span class="badge badge-light cart-count"><?= count($_SESSION['cart'] ?? []); ?></span>
+                        </a>
+                    </li>
+                    <?php if (SessionHelper::isLoggedIn()): ?>
+                        <li class="nav-item"><span class="nav-link text-white fw-bold">👤 <?= $_SESSION['username']; ?></span></li>
+                        <li class="nav-item"><a class="nav-link" href="/webbanhang/account/logout">🚪 Đăng xuất</a></li>
+                    <?php else: ?>
+                        <li class="nav-item"><a class="nav-link" href="/webbanhang/account/login">🔑 Đăng nhập</a></li>
+                    <?php endif; ?>
+                </ul>
             </div>
         </div>
-    </div>
-</nav>
-
-<!-- SweetAlert -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
-<script>
-function showSearchAlert() {
-    const searchValue = document.getElementById("searchInput").value.trim();
-    if (searchValue === "") {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Oops...',
-            text: 'Vui lòng nhập nội dung tìm kiếm!',
-            confirmButtonColor: '#007bff'
-        });
-    } else {
-        Swal.fire({
-            icon: 'success',
-            title: 'Tìm kiếm!',
-            text: `Bạn đang tìm: "${searchValue}"`,
-            confirmButtonColor: '#007bff'
-        });
-    }
-}
-</script>
-
-<!-- Bootstrap 5 JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    </nav>
 </body>
 </html>
+
+<style>
+/* ✅ Làm cho chữ trong navbar rõ nét hơn */
+.navbar-nav .nav-link {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    padding: 12px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Hiệu ứng hover */
+.navbar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    transform: scale(1.05);
+}
+
+/* ✅ Tăng độ tương phản của icon */
+.navbar-nav .nav-link i {
+    font-size: 20px;
+    margin-right: 6px;
+    color: #ffcc00;
+}
+
+.navbar {
+    padding: 15px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-nav .nav-link {
+    font-size: 18px;
+    transition: all 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+}
+
+.price-tag {
+    font-size: 22px;
+    font-weight: bold;
+    color: #ff6600;
+}
+</style>

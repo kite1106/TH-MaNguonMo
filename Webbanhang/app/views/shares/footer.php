@@ -1,26 +1,4 @@
-<!-- Banner Section -->
-<section class="container mb-5">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="bg-light p-4 rounded shadow-sm text-center">
-                <h3 class="text-primary fw-bold">🚚 Miễn phí vận chuyển</h3>
-                <p class="text-muted">Cho đơn hàng từ 500.000đ trở lên</p>
-                <button class="btn btn-primary" onclick="showInfo('Chương trình miễn phí vận chuyển đang được áp dụng!')">
-                    Tìm hiểu thêm
-                </button>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="bg-light p-4 rounded shadow-sm text-center">
-                <h3 class="text-success fw-bold">🎉 Ưu đãi thành viên</h3>
-                <p class="text-muted">Giảm thêm 5% cho khách hàng thân thiết</p>
-                <button class="btn btn-success" onclick="showInfo('Hãy đăng ký thành viên ngay để nhận ưu đãi!')">
-                    Đăng ký ngay
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
+
 
 <!-- Footer -->
 <footer class="footer py-5 bg-dark text-white">
